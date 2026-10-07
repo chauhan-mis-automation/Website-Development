@@ -2069,3 +2069,9 @@ a.c-card:hover {
   .foot-services li::before,
   .foot-services li + li::before { content: "•"; margin: 0 10px 0 0; color: var(--orange); }
 }
+
+
+/* hamburger hidden on mobile */
+@media (max-width: 760px) {
+  .burger { display: none; }
+}
