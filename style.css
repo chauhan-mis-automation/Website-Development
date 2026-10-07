@@ -1849,9 +1849,11 @@ a.c-card:hover {
   .brand small {
     display: none;
   }
-  .header-cta .btn-primary {
-    padding: 10px 16px;
-    font-size: 0.9rem;
+    .header-cta {
+    display: none;
+  }
+  .header-in {
+    gap: 12px;
   }
 }
 @media (max-width: 520px) {
@@ -1919,4 +1921,27 @@ a.c-card:hover {
 @media (max-width: 520px) {
   .c-card strong { font-size: 0.97rem; overflow-wrap: normal; }
   .c-card { padding: 14px 16px; gap: 13px; }
+}
+
+/* very small phones (320px) */
+.hero-grid > * {
+  min-width: 0;
+}
+@media (max-width: 400px) {
+  .btn-lg {
+    white-space: normal;
+    text-align: center;
+    padding-inline: 20px;
+  }
+}
+.picker > *,
+.contact-grid > *,
+.get-grid > * {
+  min-width: 0;
+}
+@media (max-width: 360px) {
+  .c-card strong {
+    font-size: 0.88rem;
+    overflow-wrap: anywhere;
+  }
 }
