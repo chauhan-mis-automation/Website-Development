@@ -1849,7 +1849,7 @@ a.c-card:hover {
   .brand small {
     display: none;
   }
-    .header-cta {
+  .header-cta {
     display: none;
   }
   .header-in {
@@ -1944,4 +1944,128 @@ a.c-card:hover {
     font-size: 0.88rem;
     overflow-wrap: anywhere;
   }
+}
+
+
+/* =========================================================
+   v2 — extra animation, marquee, footer services
+   ========================================================= */
+
+/* header drops in */
+.site-header { animation: dropIn 0.9s var(--ease) both; }
+@keyframes dropIn { from { opacity: 0; transform: translateY(-24px); } }
+
+/* hero text entrance */
+.fx { animation: fxUp 0.9s var(--ease) both; animation-delay: var(--d, 0s); }
+@keyframes fxUp { from { opacity: 0; transform: translateY(26px); } }
+
+/* headline: each line slides up from a mask */
+.hero h1 .ln { display: block; overflow: hidden; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+.hero h1 .ln > span { display: block; animation: lineUp 1s var(--ease) both; }
+.hero h1 .ln:nth-of-type(2) > span { animation-delay: 0.22s; }
+.hero h1 .ln:first-child > span { animation-delay: 0.1s; }
+@keyframes lineUp { from { transform: translateY(105%); } }
+.hero h1 .grow { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: inherit; }
+.hero h1 .grow > span {
+  background: linear-gradient(95deg, var(--blue) 0%, var(--sky) 50%, var(--blue) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: lineUp 1s 0.22s var(--ease) both, sheen 5s 1.4s linear infinite;
+}
+@keyframes sheen { to { background-position: -200% 0; } }
+
+/* drifting colour blobs behind the hero */
+.blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; pointer-events: none; }
+.blob.b1 { width: 420px; height: 420px; left: -120px; top: 120px; background: rgba(43, 168, 230, 0.35); animation: drift 14s ease-in-out infinite alternate; }
+.blob.b2 { width: 360px; height: 360px; right: -80px; bottom: -60px; background: rgba(255, 122, 61, 0.3); animation: drift 17s ease-in-out infinite alternate-reverse; }
+@keyframes drift { to { transform: translate(70px, -50px) scale(1.18); } }
+
+/* button life: shine sweep + whatsapp pulse */
+.hero .btn-primary { position: relative; overflow: hidden; }
+.hero .btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  animation: shine 4.5s 2.5s ease-in-out infinite;
+}
+@keyframes shine { 0%, 55% { left: -60%; } 100% { left: 130%; } }
+.hero .btn-wa { animation: waPulse 2.8s 3s infinite; }
+@keyframes waPulse {
+  0% { box-shadow: 0 12px 28px -14px rgba(18, 140, 74, 0.8), 0 0 0 0 rgba(18, 140, 74, 0.5); }
+  70%, 100% { box-shadow: 0 12px 28px -14px rgba(18, 140, 74, 0.8), 0 0 0 16px rgba(18, 140, 74, 0); }
+}
+
+/* the fake cursor that "clicks" the orange button in the mock site */
+.cursor {
+  position: absolute; left: 0; top: 0; z-index: 5;
+  width: 24px; height: 24px;
+  opacity: 0; pointer-events: none;
+  transition: transform 1.3s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.4s;
+  filter: drop-shadow(0 6px 8px rgba(10, 35, 71, 0.35));
+}
+.cursor.show { opacity: 1; }
+.cursor.tap svg { animation: tap 0.4s ease; }
+@keyframes tap { 50% { transform: scale(0.8); } }
+.s-cta { position: relative; }
+.s-cta::after { content: ""; position: absolute; inset: -3px; border-radius: 999px; border: 3px solid var(--orange); opacity: 0; }
+.s-cta.clicked { animation: press 0.5s ease; }
+.s-cta.clicked::after { animation: ripple 0.9s ease-out; }
+@keyframes press { 40% { transform: scale(0.9); } }
+@keyframes ripple { from { opacity: 0.9; transform: scale(1); } to { opacity: 0; transform: scale(1.8); } }
+
+/* tag stamp sits clear of the address bar */
+.tag { left: -52px; top: -96px; }
+
+/* marquee strip */
+.marquee { background: var(--ink); color: #fff; overflow: hidden; padding: 20px 0; border-block: 1px solid rgba(255, 255, 255, 0.08); }
+.m-track { display: flex; width: max-content; align-items: center; animation: marq 38s linear infinite; }
+.marquee:hover .m-track { animation-play-state: paused; }
+.m-track span { font-family: var(--font-d); font-weight: 700; font-size: clamp(1.15rem, 2.2vw, 1.6rem); letter-spacing: -0.01em; white-space: nowrap; padding: 0 26px; }
+.m-track i { flex: none; width: 11px; height: 11px; background: var(--orange); border-radius: 3px; transform: rotate(45deg); }
+@keyframes marq { to { transform: translateX(-50%); } }
+
+/* spotlight that follows the mouse on the solution panel */
+.p-panel::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.09), transparent 60%);
+}
+.p-panel:hover::after { opacity: 1; }
+.p-tab .ic { transition: transform 0.35s var(--ease), background 0.25s, color 0.25s; }
+.p-tab:hover .ic { transform: rotate(-8deg) scale(1.1); }
+
+/* process: finished node keeps pulsing */
+.steps.in .step:last-child .node { animation: ring 2.4s 3.2s ease-out infinite; }
+@keyframes ring {
+  0% { box-shadow: 0 0 0 7px rgba(255, 122, 61, 0.22), 0 0 0 0 rgba(255, 122, 61, 0.45); }
+  100% { box-shadow: 0 0 0 7px rgba(255, 122, 61, 0.22), 0 0 0 22px rgba(255, 122, 61, 0); }
+}
+
+/* the result box slowly shifts colour */
+.eq-result { background: linear-gradient(135deg, var(--blue), #0b3fb8, #1a86e8, var(--blue)); background-size: 300% 300%; animation: gradShift 9s ease infinite; }
+@keyframes gradShift { 50% { background-position: 100% 100%; } }
+
+/* footer services */
+.foot-services { order: 3; flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 6px 0; color: #c9d6ec; font-weight: 600; }
+.foot-services li { transition: color 0.25s; }
+.foot-services li:hover { color: #fff; }
+.foot-services li + li::before { content: "•"; margin: 0 14px; color: var(--orange); }
+
+@media (max-width: 760px) {
+  .blob { opacity: 0.4; }
+  .tag { left: -8px; top: -66px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-track, .blob, .hero .btn-primary::after, .hero .btn-wa, .hero h1 .grow > span { animation: none !important; }
+  .cursor { display: none; }
+}
+
+@media (max-width: 760px) {
+  .foot-services { flex-direction: column; gap: 8px; }
+  .foot-services li::before,
+  .foot-services li + li::before { content: "•"; margin: 0 10px 0 0; color: var(--orange); }
 }

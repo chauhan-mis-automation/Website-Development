@@ -61,6 +61,22 @@
     }, 450);
   }
 
+  /* ---------- Hero: cursor that clicks the CTA in the mock site ---------- */
+  var cursor = $("#cursor"), mockCta = $(".s-cta"), mockScreen = $(".b-screen");
+  if (cursor && mockCta && mockScreen && !reduce) {
+    setTimeout(function () {
+      var sr = mockScreen.getBoundingClientRect(), cr = mockCta.getBoundingClientRect();
+      var tx = cr.left - sr.left + cr.width * 0.62, ty = cr.top - sr.top + cr.height * 0.5;
+      cursor.style.transform = "translate(" + sr.width * 0.8 + "px," + sr.height * 0.92 + "px)";
+      cursor.classList.add("show");
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { cursor.style.transform = "translate(" + tx + "px," + ty + "px)"; });
+      });
+      setTimeout(function () { mockCta.classList.add("clicked"); cursor.classList.add("tap"); }, 1450);
+      setTimeout(function () { cursor.classList.remove("show"); }, 2600);
+    }, 4300);
+  }
+
   /* ---------- Hero: gentle 3D tilt (mouse only) ---------- */
   var stage = $("#stage");
   if (stage && !reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
@@ -136,6 +152,15 @@
       else return;
       e.preventDefault();
       selectTab(k, true);
+    });
+  });
+
+  // spotlight follows the mouse on the dark solution panel
+  panels.forEach(function (pn) {
+    pn.addEventListener("mousemove", function (e) {
+      var r = pn.getBoundingClientRect();
+      pn.style.setProperty("--mx", e.clientX - r.left + "px");
+      pn.style.setProperty("--my", e.clientY - r.top + "px");
     });
   });
 
